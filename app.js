@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const app = express();
 const path = require("path");
 const layout = require('./views/layout');
-const { db } = require('./models');
+const { db, Page, User } = require('./models');
 
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -18,11 +18,15 @@ db.authenticate()
     console.log('connected to the database');
   })
 
+  const wickstackTable = async () => {
+      await db.sync({force: true});
+      const page = await Page.sync({force:true});
+      const user = await Page.sync({force: true});
+      const PORT = 3000;
+      app.listen(PORT, () => {
+     console.log("Server is running!");
+   });
+  }
+ 
 
-
-
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log("Server is running!");
-});
+  wickstackTable();
